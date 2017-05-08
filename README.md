@@ -1,25 +1,27 @@
-## Ancilliary Files for "Statistical Inference with Quantum Measurements: Methodologies for Nitrogen Vacancy Centers in Diamond"
+# Ancilliary Files for "Statistical Inference with Quantum Measurements: Methodologies for Nitrogen Vacancy Centers in Diamond"
 
 - Ian Hincks
 - Christopher Granade
 - David G. Cory
 
-### Introduction
+## Introduction
 
 This repository contains all source code and data necessary to reproduce the results found in the paper _Statistical Inference with Quantum Measurements: Methodologies for Nitrogen Vacancy Centers in Diamond_. Questions about the contents of this repository should be submitted as GitHub issues to this library, so that everyone can benefit from the answer. If private communication is desired, please contact ihincks@uwaterloo.ca.
 
-### Requirements
+## Requirements
 
 #### Mathematica
 
-File extensions `.nb` are to be run with _Wolfram Mathematica 11_ (though earlier and later versions will likely work too). As this is paid proprietary software, we have also made the notebooks available in the `.cdf` format where they can be viewed, but not run, using the [Wolfram CDF Player](1). The following third party packages are required:
+File extensions `.nb` are to be run with _Wolfram Mathematica 11_ (though earlier and later versions will likely work too). As this is paid proprietary software, we have also made the notebooks available in the `.cdf` format where they can be viewed, but not run, using the [Wolfram CDF Player](1). 
+
+The following third party packages are required when running with _Mathematica_:
 
  - [QuantumUtils for Mathematica](2)
  - [MaTeX](3)
 
 #### Python
 
-Common versions between `2.7` and `3.5` should work. The following necessary libraries can be installed with `pip` or `conda`:
+Standard versions between `2.7` and `3.5` should work. The following necessary libraries can be installed with `pip` or `conda`:
 
  - [Jupyter Notebook](4) : `conda install jupyter` -- to view `.ipynb` notebook files
  - [qinfer](5) : `conda install qinfer` -- an implementation of the Sequential Monte Carlo inference algorithm
@@ -28,9 +30,9 @@ Common versions between `2.7` and `3.5` should work. The following necessary lib
  - [matplotlib](8) : `conda install matplotlib`
  
 
-### Index
+## Index
 
-Which file in this repository to look at indexed by figure number:
+#### By Figure Number
 
 - Figure 1: `optical-dynamics.nb`, "Dynamics" section
 - Figure 2: `optical-dynamics.nb`, "Rate Matrix Steady State" section
@@ -45,7 +47,14 @@ Which file in this repository to look at indexed by figure number:
 - Figure 11: (appendix) TODO
 - Figure 12: (appendix) TODO
 - Figure 13: (appendix) TODO
+
+#### By Table Number
+
 - Table 1: TODO
+
+#### By Equation Number
+
+#### By Filename
 
 [1]: https://www.wolfram.com/cdf-player/
 [2]: https://github.com/QuantumUtils/quantum-utils-mathematica
