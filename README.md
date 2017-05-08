@@ -10,6 +10,8 @@ This repository contains all source code and data necessary to reproduce the res
 
 ## Requirements
 
+Both Mathematica and Python are used. They are used independently -- Mathematica for derivations, calculations, and corresponding plots; Python for analysing the experimental data.
+
 #### Mathematica
 
 File extensions `.nb` are to be run with _Wolfram Mathematica 11_ (though earlier and later versions will likely work too). As this is paid proprietary software, we have also made the notebooks available in the `.cdf` format where they can be viewed, but not run, using the [Wolfram CDF Player](1). 
