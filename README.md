@@ -32,6 +32,21 @@ Common versions between `2.7` and `3.5` should work. The following necessary lib
 
 Which file in this repository to look at indexed by figure number:
 
+- Figure 1: `optical-dynamics.nb`, "Dynamics" section
+- Figure 2: `optical-dynamics.nb`, "Rate Matrix Steady State" section
+- Figure 3: Just a cartoon drawn in inkscape; not included
+- Figure 4: `drift_tests.nb`
+- Figure 5: `mle-derivation.nb`, "Fisher Information" section
+- Figure 6: `optical-dynamics.nb`, "Measurement Plots" section
+- Figure 7: `risk-calculations.nb`
+- Figure 8: TODO
+- Figure 9: (appendix) TODO
+- Figure 10: (appendix) TODO
+- Figure 11: (appendix) TODO
+- Figure 12: (appendix) TODO
+- Figure 13: (appendix) TODO
+- Table 1: TODO
+
 [1]: https://www.wolfram.com/cdf-player/
 [2]: https://github.com/QuantumUtils/quantum-utils-mathematica
 [3]: https://github.com/szhorvat/MaTeX
