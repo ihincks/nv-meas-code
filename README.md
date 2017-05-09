@@ -10,11 +10,11 @@ This repository contains all source code and data necessary to reproduce the res
 
 ## Requirements
 
-Both Mathematica and Python are used. They are used independently -- Mathematica for derivations, calculations, and corresponding plots; Python for analysing the experimental data.
+Both Mathematica and Python are used. They are used independently -- Mathematica for derivations, calculations, and corresponding plots; Python for analysing the experimental data and corresponding plots and table.
 
 #### Mathematica
 
-File extensions `.nb` are to be run with _Wolfram Mathematica 11_ (though earlier and later versions will likely work too). As this is paid proprietary software, we have also made the notebooks available in the `.cdf` format where they can be viewed, but not run, using the [Wolfram CDF Player](1). 
+File extensions `.nb` are to be run with _Wolfram Mathematica 11_ (though earlier and later versions will likely work too). As this is paid software, we have also made the notebooks available in the `.cdf` format where they can be viewed, but not run, using the free [Wolfram CDF Player](1). 
 
 The following third party packages are required when running with _Mathematica_:
 
@@ -44,8 +44,8 @@ Standard versions between `2.7` and `3.5` should work. The following necessary l
 - Figure 6: `optical-dynamics.nb`, "Measurement Plots" section
 - Figure 7: `risk-calculations.nb`
 - Figure 8: TODO
-- Figure 9: (appendix) TODO
-- Figure 10: (appendix) TODO
+- Figure 9: (appendix) `bivariate-poisson-prior.nb`, "Priors and Posteriors" > "Correlated Mixture weights" section
+- Figure 10: (appendix) `bivariate-poisson-prior.nb`, "Plots" section
 - Figure 11: (appendix) TODO
 - Figure 12: (appendix) TODO
 - Figure 13: (appendix) TODO
