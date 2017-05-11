@@ -31,6 +31,11 @@ Standard versions between `2.7` and `3.5` should work. The following necessary l
  - [scipy](7) : `conda install scipy`
  - [matplotlib](8) : `conda install matplotlib`
  
+Optional for parallelization:
+
+ - [ipyparallel](9): `conda install ipyparallel`
+ - [dill](10): `conda install dill`
+ 
 
 ## Index
 
@@ -66,3 +71,5 @@ Standard versions between `2.7` and `3.5` should work. The following necessary l
 [6]: http://www.numpy.org/
 [7]: https://www.scipy.org/
 [8]: http://matplotlib.org/
+[9]: https://github.com/ipython/ipyparallel
+[10]: https://pypi.python.org/pypi/dill
