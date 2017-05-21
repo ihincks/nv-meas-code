@@ -48,20 +48,20 @@ Optional for parallelization:
 - Figure 5: `mle-derivation.nb`, "Fisher Information" section
 - Figure 6: `optical-dynamics.nb`, "Measurement Plots" section
 - Figure 7: `risk-calculations.nb`
-- Figure 8: TODO
+- Figure 8a-b: `qhl.ipynb`, "Simulate with estimate" section
+- Figure 8c-d: `qhl.ipynb`, "Process Data" > "Run inference on summed data" section
+- Figure 8e-f: `qhl.ipynb`, "Least Squared Fits" section
 - Figure 9: (appendix) `bivariate-poisson-prior.nb`, "Priors and Posteriors" > "Correlated Mixture weights" section
 - Figure 10: (appendix) `bivariate-poisson-prior.nb`, "Plots" section
-- Figure 11: (appendix) TODO
-- Figure 12: (appendix) TODO
-- Figure 13: (appendix) TODO
+- Figure 11: (appendix) `qhl.ipynb`, "Test Model and Updater" > "Test our custom updater" section
+- Figure 12: (appendix) `qhl.ipynb`, "Import Data from Disk" > "Raw data plots"
+- Figure 13: (appendix) `qhl.ipynb`, "Process Data" > "Run inference on summed data" section
+- Figure 14: (appendix) `qhl.ipynb`, "Simulate with estimate" section
 
 #### By Table Number
 
-- Table 1: TODO
+- Table 1: `qhl.ipynb`, "Least Squared Fits" section
 
-#### By Equation Number
-
-#### By Filename
 
 [1]: https://www.wolfram.com/cdf-player/
 [2]: https://github.com/QuantumUtils/quantum-utils-mathematica
