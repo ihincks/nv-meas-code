@@ -1,0 +1,45 @@
+{
+    "RABI": {
+        "filename":     "rabi_data/Avg{:03d}.mat",
+        "matlab_variable": "M",
+
+        "static_field": [0,0,0],
+        "motor_pos":    [0,0,0],
+
+        "center_freq":  2.87e9,
+        "rabi_guess":   5.6e6,
+        "n_shots":      30000,
+        "n_avgs":       350,
+
+        "bright_idx":   1,
+        "dark_idx":     2,
+        "signal_idx":   3,
+
+        "rabi_times":   "np.linspace(8e-9,800e-9,100)",
+
+        "uwave_dB":   0
+    },
+
+    "RAMSEY": {
+        "filename":     "ramsey_data/Avg{:03d}.mat",
+        "matlab_variable": "M",
+
+        "static_field": [0,0,0],
+        "motor_pos":    [0,0,0],
+
+        "center_freq":  2.87e9,
+        "rabi_guess":   5.6e6,
+        "n_shots":      30000,
+        "n_avgs":       400,
+
+        "bright_idx":   1,
+        "dark_idx":     2,
+        "signal_idx":   3,
+
+        "t_pulse":      44e-9,
+        "ramsey_times": "np.linspace(10e-9,2e-6,200)",
+
+        "uwave_dB":   0
+    }
+
+}
