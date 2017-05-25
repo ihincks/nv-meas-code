@@ -45,6 +45,7 @@ $ pip install -r requirements.txt
 With Anaconda:
 
 ```bash
+$ conda install nb_conda # Optional, exposes new environment to Jupyter.
 $ conda env create -f environment.yml
 ```
  
