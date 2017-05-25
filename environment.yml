@@ -1,4 +1,4 @@
-name: nv-meas
+name: nvmeas
 dependencies:
   - jupyter
   - numpy
