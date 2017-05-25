@@ -26,7 +26,7 @@ The following third party packages are required when running with _Mathematica_:
 Standard versions between `2.7` and `3.5` should work. The following necessary libraries can be installed with `pip` or `conda`:
 
  - [Jupyter Notebook](4) : `conda install jupyter` -- to view `.ipynb` notebook files
- - [qinfer](5) : `conda install qinfer` -- an implementation of the Sequential Monte Carlo inference algorithm
+ - [qinfer](5) : `pip install qinfer` -- an implementation of the Sequential Monte Carlo inference algorithm
  - [numpy](6) : `conda install numpy`
  - [scipy](7) : `conda install scipy`
  - [matplotlib](8) : `conda install matplotlib`
@@ -35,8 +35,25 @@ Optional for parallelization:
 
  - [ipyparallel](9): `conda install ipyparallel`
  - [dill](10): `conda install dill`
- 
 
+With pip:
+
+```bash
+$ pip install -r requirements.txt
+```
+
+With Anaconda:
+
+```bash
+$ conda env create -f environment.yml
+```
+ 
+With pip and virtualenv:
+```
+$ virtualenv env/
+$ env/scripts/activate.sh # Use ".ps1" instead of ".sh" on Windows.
+$ pip install -r requirements.txt
+```
 ## Index
 
 #### By Figure Number

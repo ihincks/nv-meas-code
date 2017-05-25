@@ -1,0 +1,7 @@
+jupyter
+qinfer
+numpy
+scipy
+matplotlib
+ipyparallel
+dill

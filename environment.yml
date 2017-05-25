@@ -1,0 +1,10 @@
+name: nv-meas
+dependencies:
+  - jupyter
+  - numpy
+  - scipy
+  - matplotlib
+  - ipyparallel
+  - dill
+  - pip:
+    - qinfer
