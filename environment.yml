@@ -1,5 +1,6 @@
 name: nvmeas
 dependencies:
+  - python=2.7
   - jupyter
   - numpy
   - scipy
