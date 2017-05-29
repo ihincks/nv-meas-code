@@ -54,7 +54,7 @@ def load_averages(pattern, times_file):
     """
     file_list = glob(pattern)
     file_list.sort()
-    M = [sio.loadmat(fname)['M'][np.newaxis, ...] for fname in glob(pattern)]
+    M = [sio.loadmat(fname)['M'][np.newaxis, ...] for fname in file_list]
     return np.concatenate(M,axis=0)
 
 def unitary(t, phi, wr, we, dwc):
