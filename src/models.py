@@ -8,6 +8,7 @@ import numpy as np
 import scipy.io as sio
 from scipy.linalg import expm
 from scipy.special import xlogy, gammaln
+from vexpm import vexpm
 
 from glob import glob
 
@@ -105,6 +106,42 @@ def rabi(tp, tau, phi, wr, we, dwc, an, T2inv):
         sig[idx] =  np.real(np.dot(P0vec, np.dot(S, P0vec))) / 3
 
     return sig
+    
+class RepeatedOperator(object):
+    def __init__(self, op):
+        self.op = op
+        self._memo = {}
+        
+    def _construct_op(self, size):
+        return np.repeat(self.op[np.newaxis, ...], size, axis=0)
+    
+    def __call__(self, size=1):
+        if size not in self._memo:
+            self._memo[size] = self._construct_op(size)
+        return self._memo[size]
+            
+vecGx = RepeatedOperator(GX)
+vecGy = RepeatedOperator(GY)
+vecGz = RepeatedOperator(GZ)
+vecGz2 = RepeatedOperator(GZ2)   
+vecSx = RepeatedOperator(-1j * 2 * np.pi * Sx)
+vecSyp = RepeatedOperator(-1j * 2 * np.pi * Syp)
+vecSz = RepeatedOperator(-1j * 2 * np.pi * Sz)
+vecSz2 = RepeatedOperator(-1j * 2 * np.pi * Sz2)   
+vecLz = RepeatedOperator(two_pi * (np.kron(Sz, Sz) - (np.kron(Sz2, Si) + np.kron(Si, Sz2)) / 2))
+
+def rabi2(tp, tau, phi, wr, we, dwc, an, T2inv):
+    n_models = wr.shape[0]
+    # supergenerator without nitrogen
+    G1 = tp * (wr[:, np.newaxis, np.newaxis] * vecGx(n_models) \
+        + we[:, np.newaxis, np.newaxis] * vecGz(n_models) \
+        + dwc[:, np.newaxis, np.newaxis] * vecGz2(n_models) \
+        + T2inv[:, np.newaxis, np.newaxis] * vecLz(n_models))
+    # supergenerator for just nitrogen
+    GA = tp * an[:, np.newaxis, np.newaxis] * vecGz(n_models)
+    # simulate three nitrogen cases and average results
+    # note that preparing P0 and measuring P0 is equivalent to getting central element (4,4)
+    return np.real(vexpm(G1 - GA)[:, 4, 4] + vexpm(G1)[:, 4, 4] + vexpm(G1 + GA)[:, 4, 4]) / 3
 
 def pure_evolve(U):
     """
@@ -118,6 +155,70 @@ def ramsey(tp, tau, phi, wr, we, dwc, an, T2inv):
     Return signal due to Ramsey experiment with
     given parameters
     """
+    n_models = wr.shape[0]
+    sig = np.empty((n_models,))
+    for idx in xrange(n_models):
+        # assume tp is small enough that T2 doesn't matter
+        Pinit1 = pure_evolve(unitary(tp, 0, wr[idx], we[idx], dwc[idx])).flatten(order='F')
+        Pinit2 = pure_evolve(unitary(tp, 0, wr[idx], we[idx] + an[idx], dwc[idx])).flatten(order='F')
+        Pinit3 = pure_evolve(unitary(tp, 0, wr[idx], we[idx] - an[idx], dwc[idx])).flatten(order='F')
+        if phi == 0:
+            Pfinal1, Pfinal2, Pfinal3 = Pinit1, Pinit2, Pinit3
+        else:
+            Pfinal1 = pure_evolve(unitary(tp, phi, wr[idx], we[idx], dwc[idx])).flatten(order='F')
+            Pfinal2 = pure_evolve(unitary(tp, phi, wr[idx], we[idx] + an[idx], dwc[idx])).flatten(order='F')
+            Pfinal3 = pure_evolve(unitary(tp, phi, wr[idx], we[idx] - an[idx], dwc[idx])).flatten(order='F')
+        
+        # take an incoherent sum over nitrogen values
+        S = np.real(np.dot(Pfinal1.conj(), np.dot(superop(tau, 0, we[idx], dwc[idx], T2inv[idx]), Pinit1)))
+        S = S + np.real(np.dot(Pfinal2.conj(), np.dot(superop(tau, 0, we[idx] + an[idx], dwc[idx], T2inv[idx]), Pinit2)))
+        S = S + np.real(np.dot(Pfinal3.conj(), np.dot(superop(tau, 0, we[idx] - an[idx], dwc[idx], T2inv[idx]), Pinit3)))
+
+        sig[idx] =  S / 3
+
+    return sig
+    
+def ramsey2(tp, tau, phi, wr, we, dwc, an, T2inv):
+    """
+    Return signal due to Ramsey experiment with
+    given parameters
+    """
+    n_models = wr.shape[0]
+    # hamiltonian without nitrogen during rabi
+    H1 = tp * (wr[:, np.newaxis, np.newaxis] * vecSx(n_models) \
+        + we[:, np.newaxis, np.newaxis] * vecSz(n_models) \
+        + dwc[:, np.newaxis, np.newaxis] * vecSz2(n_models))
+    # hamiltonian for just nitrogen
+    HA = tp * an[:, np.newaxis, np.newaxis] * vecSz(n_models)
+    
+    # states after square pulses
+    sm = vexpm(H1 - HA)[...,1]
+    s0 = vexpm(H1)[...,1]
+    sp = vexpm(H1 + HA)[...,1]
+    
+    # convert to vectorized density matrix
+    sm = np.repeat(sm.conj(), 3, axis=-1) * np.reshape(np.tile(sm, 3), (-1, 9))
+    sm = sm[...,np.newaxis]
+    s0 = np.repeat(s0.conj(), 3, axis=-1) * np.reshape(np.tile(s0, 3), (-1, 9))
+    s0 = s0[...,np.newaxis]
+    sp = np.repeat(sp.conj(), 3, axis=-1) * np.reshape(np.tile(sp, 3), (-1, 9))
+    sp = sp[...,np.newaxis]
+    
+    # supergenerator during wait
+    G1 = tau * (we[:, np.newaxis, np.newaxis] * vecGz(n_models) \
+        + dwc[:, np.newaxis, np.newaxis] * vecGz2(n_models) \
+        + T2inv[:, np.newaxis, np.newaxis] * vecLz(n_models))
+    # supergenerator for just nitrogen
+    GA = tau * an[:, np.newaxis, np.newaxis] * vecGz(n_models)
+    
+    # sandwich wait between square pulses
+    p = np.matmul(sm.conj().swapaxes(-2,-1), np.matmul(vexpm(G1 - GA), sm))[...,0,0]
+    p = p + np.matmul(s0.conj().swapaxes(-2,-1), np.matmul(vexpm(G1), s0))[...,0,0]
+    p = p + np.matmul(sp.conj().swapaxes(-2,-1), np.matmul(vexpm(G1 + GA), sp))[...,0,0]
+    
+    return np.real(p) / 3
+
+
     n_models = wr.shape[0]
     sig = np.empty((n_models,))
     for idx in xrange(n_models):
@@ -306,11 +407,12 @@ class RabiRamseyModel(qi.FiniteOutcomeModel):
 
         self.use_separate_ramsey_power = use_separate_ramsey_power
         self.simulator = {
-            self.RABI:   rabi,
-            self.RAMSEY: ramsey
+            self.RABI:   rabi2,
+            self.RAMSEY: ramsey2
         }
 
         self._domain = qi.IntegerDomain(min=0, max=1)
+        
 
     @property
     def n_modelparams(self):
@@ -357,7 +459,7 @@ class RabiRamseyModel(qi.FiniteOutcomeModel):
     def n_outcomes(self, expparams):
         return 2
         
-    @MemoizeLikelihood
+    #@MemoizeLikelihood
     def likelihood(self, outcomes, modelparams, expparams):
         """
         Returns the likelihood of measuring |0> under a projective
