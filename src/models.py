@@ -52,7 +52,9 @@ def load_averages(pattern, times_file):
     """
     Sums up matlab "average files" specified by glob pattern.
     """
-    M = [sio.loadmat(fname)['M'][np.newaxis, ...] for fname in glob(pattern)]
+    file_names = glob(pattern)
+    file_names.sort()
+    M = [sio.loadmat(fname)['M'][np.newaxis, ...] for fname in file_names]
     return np.concatenate(M,axis=0)
 
 def unitary(t, phi, wr, we, dwc):
