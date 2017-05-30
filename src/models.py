@@ -390,7 +390,7 @@ class RabiRamseyModel(qi.FiniteOutcomeModel):
     mode: Specifies whether a reference or signal count is being performed.
     t:   Pulse width
     tau: Ramsey wait time (only relevent if mode is `RabiRamseyModel.RAMSEY`)
-    phi: Ramsey phase between pulses
+    phi: Ramsey phase between pulses (")
     """
     
     RABI = 0
@@ -414,7 +414,6 @@ class RabiRamseyModel(qi.FiniteOutcomeModel):
         }
 
         self._domain = qi.IntegerDomain(min=0, max=1)
-        
 
     @property
     def n_modelparams(self):

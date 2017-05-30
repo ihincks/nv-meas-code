@@ -7,5 +7,7 @@ dependencies:
   - matplotlib
   - ipyparallel
   - dill
+  - future
   - pip:
-    - qinfer
+    - git+https://github.com/QInfer/python-qinfer.git@b4c4924c1b06453ff4aa35076e7eea982c8151e1
+
