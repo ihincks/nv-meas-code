@@ -131,6 +131,7 @@ vecSz2 = RepeatedOperator(-1j * 2 * np.pi * Sz2)
 vecLz = RepeatedOperator(two_pi * (np.kron(Sz, Sz) - (np.kron(Sz2, Si) + np.kron(Si, Sz2)) / 2))
 
 def rabi2(tp, tau, phi, wr, we, dwc, an, T2inv):
+    # this is the same as rabi, except that we use the vexpm function
     n_models = wr.shape[0]
     # supergenerator without nitrogen
     G1 = tp * (wr[:, np.newaxis, np.newaxis] * vecGx(n_models) \
@@ -170,9 +171,9 @@ def ramsey(tp, tau, phi, wr, we, dwc, an, T2inv):
             Pfinal3 = pure_evolve(unitary(tp, phi, wr[idx], we[idx] - an[idx], dwc[idx])).flatten(order='F')
         
         # take an incoherent sum over nitrogen values
-        S = np.real(np.dot(Pfinal1.conj(), np.dot(superop(tau, 0, we[idx], dwc[idx], T2inv[idx]), Pinit1)))
-        S = S + np.real(np.dot(Pfinal2.conj(), np.dot(superop(tau, 0, we[idx] + an[idx], dwc[idx], T2inv[idx]), Pinit2)))
-        S = S + np.real(np.dot(Pfinal3.conj(), np.dot(superop(tau, 0, we[idx] - an[idx], dwc[idx], T2inv[idx]), Pinit3)))
+        S = np.real(np.dot(Pfinal1, np.dot(superop(tau, 0, we[idx], dwc[idx], T2inv[idx]), Pinit1)))
+        S = S + np.real(np.dot(Pfinal2, np.dot(superop(tau, 0, we[idx] + an[idx], dwc[idx], T2inv[idx]), Pinit2)))
+        S = S + np.real(np.dot(Pfinal3, np.dot(superop(tau, 0, we[idx] - an[idx], dwc[idx], T2inv[idx]), Pinit3)))
 
         sig[idx] =  S / 3
 
@@ -183,6 +184,7 @@ def ramsey2(tp, tau, phi, wr, we, dwc, an, T2inv):
     Return signal due to Ramsey experiment with
     given parameters
     """
+    # this is the same as the ramsey function, but using vexpm
     n_models = wr.shape[0]
     # hamiltonian without nitrogen during rabi
     H1 = tp * (wr[:, np.newaxis, np.newaxis] * vecSx(n_models) \
@@ -212,9 +214,9 @@ def ramsey2(tp, tau, phi, wr, we, dwc, an, T2inv):
     GA = tau * an[:, np.newaxis, np.newaxis] * vecGz(n_models)
     
     # sandwich wait between square pulses
-    p = np.matmul(sm.conj().swapaxes(-2,-1), np.matmul(vexpm(G1 - GA), sm))[...,0,0]
-    p = p + np.matmul(s0.conj().swapaxes(-2,-1), np.matmul(vexpm(G1), s0))[...,0,0]
-    p = p + np.matmul(sp.conj().swapaxes(-2,-1), np.matmul(vexpm(G1 + GA), sp))[...,0,0]
+    p = np.matmul(sm.swapaxes(-2,-1), np.matmul(vexpm(G1 - GA), sm))[...,0,0]
+    p = p + np.matmul(s0.swapaxes(-2,-1), np.matmul(vexpm(G1), s0))[...,0,0]
+    p = p + np.matmul(sp.swapaxes(-2,-1), np.matmul(vexpm(G1 + GA), sp))[...,0,0]
     
     return np.real(p) / 3
 
@@ -388,7 +390,7 @@ class RabiRamseyModel(qi.FiniteOutcomeModel):
     mode: Specifies whether a reference or signal count is being performed.
     t:   Pulse width
     tau: Ramsey wait time (only relevent if mode is `RabiRamseyModel.RAMSEY`)
-    phi: Ramsey phase between pulses (")
+    phi: Ramsey phase between pulses
     """
     
     RABI = 0
@@ -459,7 +461,7 @@ class RabiRamseyModel(qi.FiniteOutcomeModel):
     def n_outcomes(self, expparams):
         return 2
         
-    #@MemoizeLikelihood
+    @MemoizeLikelihood
     def likelihood(self, outcomes, modelparams, expparams):
         """
         Returns the likelihood of measuring |0> under a projective
@@ -728,12 +730,13 @@ class BridgedRPMUpdater(qi.SMCUpdater):
     and compensating by reducing the update into smaller artificial updates.
     """
     
-    def __init__(self, model, n_particles, prior, branch_size=2, max_recursion=10, n_ess_thresh= 1000, **kwargs):
+    def __init__(self, model, n_particles, prior, branch_size=2, max_recursion=10, zero_weight_policy='ignore', n_ess_thresh= 1000, **kwargs):
         super(BridgedRPMUpdater, self).__init__(model, n_particles, prior, **kwargs)
         self.resampler = SliceResampler(default_n_particles=n_particles)
         self.n_ess_thresh = n_ess_thresh
         self.branch_size = branch_size
         self.max_recursion = max_recursion
+        self._zero_weight_policy = zero_weight_policy
 
     def update(self, outcome, expparams, check_for_resample=True, data_divider=1):
         """
@@ -765,7 +768,7 @@ class BridgedRPMUpdater(qi.SMCUpdater):
         # or if the previous clip step choked on a NaN.
         if np.sum(weights) <= self._zero_weight_thresh:
             if self._zero_weight_policy == 'ignore':
-                pass
+                n_ess = 0
             elif self._zero_weight_policy == 'skip':
                 return
             elif self._zero_weight_policy == 'warn':
