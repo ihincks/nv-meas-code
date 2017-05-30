@@ -36,20 +36,20 @@ Optional for parallelization:
  - [ipyparallel](9): `conda install ipyparallel`
  - [dill](10): `conda install dill`
 
-With pip:
+These requirements can be installed automatically with pip:
 
 ```bash
 $ pip install -r requirements.txt
 ```
 
-With Anaconda:
+Or with Anaconda (recommended):
 
 ```bash
 $ conda install nb_conda # Optional, exposes new environment to Jupyter.
 $ conda env create -f environment.yml
 ```
  
-With pip and virtualenv:
+Or with pip and virtualenv:
 ```
 $ virtualenv env/
 $ env/scripts/activate.sh # Use ".ps1" instead of ".sh" on Windows.
