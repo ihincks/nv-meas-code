@@ -34,7 +34,7 @@ Standard versions between `2.7` and `3.5` should work. The following necessary l
 Optional for parallelization:
 
  - [ipyparallel](9): `conda install ipyparallel`
- - [dill](10): `conda install dill`
+ - [dill](https://pypi.python.org/pypi/dill): `conda install dill`
 
 These requirements can be installed automatically with pip:
 
@@ -90,4 +90,3 @@ $ pip install -r requirements.txt
 [7]: https://www.scipy.org/
 [8]: http://matplotlib.org/
 [9]: https://github.com/ipython/ipyparallel
-[10]: https://pypi.python.org/pypi/dill
