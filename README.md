@@ -14,26 +14,26 @@ Both Mathematica and Python are used. They are used independently -- Mathematica
 
 #### Mathematica
 
-File extensions `.nb` are to be run with _Wolfram Mathematica 11_ (though earlier and later versions will likely work too). As this is paid software, we have also made the notebooks available in the `.cdf` format where they can be viewed, but not run, using the free [Wolfram CDF Player](1). 
+File extensions `.nb` are to be run with _Wolfram Mathematica 11_ (though earlier and later versions will likely work too). As this is paid software, we have also made the notebooks available in the `.cdf` format where they can be viewed, but not run, using the free [Wolfram CDF Player](https://www.wolfram.com/cdf-player/). 
 
 The following third party packages are required when running with _Mathematica_:
 
- - [QuantumUtils for Mathematica](2)
- - [MaTeX](3)
+ - [QuantumUtils for Mathematica](https://github.com/QuantumUtils/quantum-utils-mathematica)
+ - [MaTeX](https://github.com/szhorvat/MaTeX)
 
 #### Python
 
 Standard versions between `2.7` and `3.5` should work. The following necessary libraries can be installed with `pip` or `conda`:
 
- - [Jupyter Notebook](4) : `conda install jupyter` -- to view `.ipynb` notebook files
- - [qinfer](5) : `pip install qinfer` -- an implementation of the Sequential Monte Carlo inference algorithm
- - [numpy](6) : `conda install numpy`
- - [scipy](7) : `conda install scipy`
- - [matplotlib](8) : `conda install matplotlib`
+ - [Jupyter Notebook](http://jupyter.org/) : `conda install jupyter` -- to view `.ipynb` notebook files
+ - [qinfer](http://qinfer.org/) : `pip install qinfer` -- an implementation of the Sequential Monte Carlo inference algorithm
+ - [numpy](http://www.numpy.org/) : `conda install numpy`
+ - [scipy](https://www.scipy.org/) : `conda install scipy`
+ - [matplotlib](http://matplotlib.org/) : `conda install matplotlib`
  
 Optional for parallelization:
 
- - [ipyparallel](9): `conda install ipyparallel`
+ - [ipyparallel](https://github.com/ipython/ipyparallel): `conda install ipyparallel`
  - [dill](https://pypi.python.org/pypi/dill): `conda install dill`
 
 These requirements can be installed automatically with pip:
@@ -79,14 +79,3 @@ $ pip install -r requirements.txt
 #### By Table Number
 
 - Table 1: `qhl.ipynb`, "Least Squared Fits" section
-
-
-[1]: https://www.wolfram.com/cdf-player/
-[2]: https://github.com/QuantumUtils/quantum-utils-mathematica
-[3]: https://github.com/szhorvat/MaTeX
-[4]: http://jupyter.org/
-[5]: http://qinfer.org/
-[6]: http://www.numpy.org/
-[7]: https://www.scipy.org/
-[8]: http://matplotlib.org/
-[9]: https://github.com/ipython/ipyparallel
