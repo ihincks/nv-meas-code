@@ -1,14 +1,12 @@
 # Ancilliary Files for "Statistical Inference with Quantum Measurements: Methodologies for Nitrogen Vacancy Centers in Diamond"
 
-https://doi.org/10.1088/1367-2630/aa9c9f
-
 - Ian Hincks
 - Christopher Granade
 - David G. Cory
 
 ## Introduction
 
-This repository contains all source code and data necessary to reproduce the results found in the paper _Statistical Inference with Quantum Measurements: Methodologies for Nitrogen Vacancy Centers in Diamond_. Questions about the contents of this repository should be submitted as GitHub issues to this library, so that everyone can benefit from the answer. If private communication is desired, please contact ihincks@uwaterloo.ca.
+This repository contains all source code and data necessary to reproduce the results found in the paper [_Statistical Inference with Quantum Measurements: Methodologies for Nitrogen Vacancy Centers in Diamond_](https://doi.org/10.1088/1367-2630/aa9c9f). Questions about the contents of this repository should be submitted as GitHub issues to this library, so that everyone can benefit from the answer. If private communication is desired, please contact ihincks@uwaterloo.ca.
 
 ## Requirements
 
